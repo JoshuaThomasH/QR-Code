@@ -1,0 +1,59 @@
+{
+    "kind": "discovery#restDescription",
+    "discoveryVersion": "v2",
+    "id": "mydll:v1",
+    "name": "QR Code",
+    "version": "v2.0",
+    "title": "QR Code",
+    "protocol": "native",
+    "basePath": "QRCodeEncoder",
+	"dependencies":["qrious.min.js",
+                    "EventEmitter.js",
+					"QRCodeGenIA.js",
+					"QRCodeEncoder.dll",
+					"Gma.QrCodeNet.Encoding.dll"
+				],
+
+	"icons" : {		
+		"x32" : "icon_qrcode_32.png"
+	},
+	
+	"schemas" :
+	{
+		"QRCodeEncoder" : 
+		{
+			"id": "QRCodeEncoder",
+			"type":"object",
+			"title":"QR Code Generator",
+			"description" : "Tool to encode any string or URL in a QRCode", 
+			"properties" : 
+			{
+				"GeneratedQRCodePath" :  
+				{
+					"type" : "string",
+					"title" : "Generated QR Code path",
+					"description" : "Path to the last generated QRCode image", 
+					"readonly" : true
+				},
+				"TextToEncode" :  
+				{
+					"type" : "string",
+					"title" : "Text to encode",
+					"description" : "Set here the text you want to encode"
+				}					
+			}
+		}
+	},
+
+	"resources" : 
+	{
+		"QRCodeEncoder" : 
+		{
+			"id": "QRCodeEncoder",			
+			"isExternalAsset":"true",
+			"templateDesignAccelerator" : "QREncoder.dax",
+			"title":"QR Code Generator",
+			"description":"Create QR code for any URL"
+		}
+	}
+}

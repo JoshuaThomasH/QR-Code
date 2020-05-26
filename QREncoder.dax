@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mashup ApiNumber="12" Name="QREncoder" Description="shows all the propeties of a SimpleAsset" Category="QRCode Encoder InterfaceAssets" Author="IntuiLab" AuthorId="IntuiLab" Icon="QREncoder.png" OriginalLocalPath=".\Local" OriginalDataPath=".\Data" OriginalProcessID="39384">
+  <MashupSpace ContextAlias="CURRENT_SPACE" Name="mashup_root_0" OriginalAbsoluteVisualPath="player://visuals/Project 336/Space">
+    <Space Name="Space" AutoReset="false" BackgroundColor="#FF000000" />
+  </MashupSpace>
+  <MashupCollection Name="mashup_root_1" OriginalAbsoluteVisualPath="player://visuals/Project 336/Space/Middle/Default template for QR Code Generator" CreateAsCollectionSibling="true">
+    <Collection Name="Default template for QR Code Generator" Visual="Group" Style="" Container="Static" ContainerStyle="">
+      <Properties>
+        <Property Type="Visual" Name="Axis"><![CDATA[value:Vertical]]></Property>
+        <Property Type="Container" Name="X"><![CDATA[value:861]]></Property>
+        <Property Type="Container" Name="Y"><![CDATA[value:463]]></Property>
+        <Property Type="Container" Name="MinWidth"><![CDATA[value:50]]></Property>
+        <Property Type="Container" Name="MinHeight"><![CDATA[value:50]]></Property>
+        <Property Type="Container" Name="MaxWidth"><![CDATA[value:4000]]></Property>
+        <Property Type="Container" Name="MaxHeight"><![CDATA[value:4000]]></Property>
+        <Property Type="Container" Name="MinimizedImage"><![CDATA[player://data/DefaultAssets/DefaultMinimized.png]]></Property>
+        <Property Type="Container" Name="MinimizedPressedImage"><![CDATA[player://data/DefaultAssets/DefaultMinimized.png]]></Property>
+        <Property Type="Visual" Name="ItemWidth"><![CDATA[value:575]]></Property>
+        <Property Type="Visual" Name="ItemHeight"><![CDATA[value:150]]></Property>
+        <Property Type="Visual" Name="ItemSpacing"><![CDATA[value:15]]></Property>
+        <Property Type="Visual" Name="BackgroundRadius"><![CDATA[value:10]]></Property>
+        <Property Type="Visual" Name="ScrollBy"><![CDATA[value:1]]></Property>
+        <Property Type="Visual" Name="SoftMoveSpeed"><![CDATA[value:0.95]]></Property>
+        <Property Type="Visual" Name="Elasticity"><![CDATA[value:0.4]]></Property>
+        <Property Type="Visual" Name="ControlsRadius"><![CDATA[value:10]]></Property>
+        <Property Type="Container" Name="Width"><![CDATA[value:550]]></Property>
+        <Property Type="Visual" Name="InitialWidth"><![CDATA[value:550]]></Property>
+        <Property Type="Container" Name="Height"><![CDATA[value:407]]></Property>
+        <Property Type="Visual" Name="InitialHeight"><![CDATA[value:409.367744229041]]></Property>
+        <Property Type="Container" Name="Orientation"><![CDATA[value:0]]></Property>
+      </Properties>
+      <Asset Name="Background 1" Visual="DefaultRectangle" Style="" Container="Default" ContainerStyle="" Domain="value:Rectangle">
+        <Properties>
+          <Property Type="Visual" Name="BackgroundColor"><![CDATA[value:#FF000000]]></Property>
+          <Property Type="Container" Name="Y"><![CDATA[value:204]]></Property>
+          <Property Type="Container" Name="Orientation"><![CDATA[value:0]]></Property>
+          <Property Type="Container" Name="Width"><![CDATA[value:540]]></Property>
+          <Property Type="Container" Name="Height"><![CDATA[value:407.183189990436]]></Property>
+          <Property Type="Container" Name="MinimizedImage"><![CDATA[player://data/DefaultAssets/DefaultMinimized.png]]></Property>
+          <Property Type="Container" Name="MinimizedPressedImage"><![CDATA[player://data/DefaultAssets/DefaultMinimized.png]]></Property>
+          <Property Type="Container" Name="MinimizedWidth"><![CDATA[value:50]]></Property>
+          <Property Type="Container" Name="MinimizedHeight"><![CDATA[value:50]]></Property>
+          <Property Type="Container" Name="DisplayButtonsRadius"><![CDATA[value:19]]></Property>
+          <Property Type="Container" Name="X"><![CDATA[value:276]]></Property>
+        </Properties>
+      </Asset>
+      <Asset Name="Header background 1" Visual="DefaultRectangle" Style="" Container="Default" ContainerStyle="" Domain="value:Rectangle">
+        <Properties>
+          <Property Type="Visual" Name="BackgroundColor"><![CDATA[value:#FF3B3A3A]]></Property>
+          <Property Type="Visual" Name="BorderColor"><![CDATA[value:#FF242424]]></Property>
+          <Property Type="Container" Name="Orientation"><![CDATA[value:0]]></Property>
+          <Property Type="Container" Name="Y"><![CDATA[value:10]]></Property>
+          <Property Type="Container" Name="Width"><![CDATA[value:550]]></Property>
+          <Property Type="Container" Name="Height"><![CDATA[value:19]]></Property>
+          <Property Type="Container" Name="X"><![CDATA[value:275]]></Property>
+        </Properties>
+      </Asset>
+      <Asset Name="Image for &lt;QR code&gt;" Visual="DefaultImage" Style="" Container="Default" ContainerStyle="" Uri="player://data/DefaultAssets/DefaultImage.png">
+        <Properties>
+          <Property Type="Container" Name="Y"><![CDATA[value:175]]></Property>
+          <Property Type="Domain" Name="Source"><![CDATA[mashup://externals/QR%20Code%20Generator/GeneratedQRCodePath]]></Property>
+          <Property Type="Container" Name="Width"><![CDATA[value:250]]></Property>
+          <Property Type="Container" Name="Height"><![CDATA[value:250]]></Property>
+          <Property Type="Container" Name="Orientation"><![CDATA[value:0]]></Property>
+          <Property Type="Container" Name="X"><![CDATA[value:275]]></Property>
+          <Property Type="Visual" Name="TitleRadius"><![CDATA[value:10]]></Property>
+          <Property Type="Visual" Name="ToolButtonsRadius"><![CDATA[value:5]]></Property>
+        </Properties>
+      </Asset>
+      <Asset Name="Footer background 1" Visual="DefaultRectangle" Style="" Container="Default" ContainerStyle="" Domain="value:Rectangle">
+        <Properties>
+          <Property Type="Visual" Name="BackgroundColor"><![CDATA[value:#FF242424]]></Property>
+          <Property Type="Container" Name="Y"><![CDATA[value:371]]></Property>
+          <Property Type="Container" Name="Width"><![CDATA[value:550]]></Property>
+          <Property Type="Container" Name="Height"><![CDATA[value:75]]></Property>
+          <Property Type="Container" Name="Orientation"><![CDATA[value:0]]></Property>
+          <Property Type="Container" Name="X"><![CDATA[value:275]]></Property>
+        </Properties>
+      </Asset>
+      <Asset Name="Text for &lt;Text to encode&gt;" Visual="DefaultText" Style="" Container="Default" ContainerStyle="" Domain="value:Text">
+        <Properties>
+          <Property Type="Domain" Name="Text"><![CDATA[mashup://externals/QR%20Code%20Generator/TextToEncode]]></Property>
+          <Property Type="Container" Name="Width"><![CDATA[value:517]]></Property>
+          <Property Type="Visual" Name="FontColor"><![CDATA[value:#FF83D3F6]]></Property>
+          <Property Type="Container" Name="Height"><![CDATA[value:48]]></Property>
+          <Property Type="Container" Name="X"><![CDATA[value:275]]></Property>
+          <Property Type="Container" Name="Y"><![CDATA[value:371]]></Property>
+          <Property Type="Visual" Name="FontSize"><![CDATA[value:33]]></Property>
+        </Properties>
+      </Asset>
+    </Collection>
+  </MashupCollection>
+  <MashupExternalAsset ContextAlias="ASSOCIATED_IA">
+    <ExternalAsset Name="QR Code Generator" DescriptorPath="player://data/InterfaceAssets/QR%20Code/QREncoder.ifd" ExternalAssetName="QRCodeEncoder">
+      <Dependencies>
+        <Dependency URI="player://data/InterfaceAssets/QR Code/QREncoder.ifd" Length="-1" />
+        <Dependency URI="player://data/InterfaceAssets/QR Code/QRCodeEncoder.dll" Length="-1" />
+        <Dependency URI="player://data/InterfaceAssets/QR Code/Gma.QrCodeNet.Encoding.dll" Length="-1" />
+        <Dependency URI="player://data/InterfaceAssets/QR Code/icon_qrcode_32.png" Length="-1" />
+        <Dependency URI="player://data/InterfaceAssets/QR Code/QREncoder.ifa" Length="-1" />
+      </Dependencies>
+    </ExternalAsset>
+  </MashupExternalAsset>
+</Mashup>
