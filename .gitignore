@@ -1,0 +1,18 @@
+# ignore
+# videos
+*.mp4
+*.userprefs
+*.png
+*.jpg
+
+# pyinstaller .exe
+[Dd]ist/ 
+[Bb]uild/ 
+
+# build results
+[Dd]ebug/
+[Dd]ebugPublic/
+
+# directories
+.vs/
+__pycache__/
