@@ -8,7 +8,7 @@
 qr_scripts.bat
 
 [Dd]ata/QRCodeGenerator
-[Ii]magesQR
+[Ii]magesQR/*.png
 # pyinstaller .exe
 [Dd]ist/ 
 [Bb]uild/ 
