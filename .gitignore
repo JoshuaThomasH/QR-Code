@@ -1,9 +1,13 @@
 # ignore
 # videos
 *.mp4
-*.userprefs
-*.png
-*.jpg
+
+
+
+
+qr_scripts.bat
+
+[Dd]ata/QRCodeGenerator
 
 # pyinstaller .exe
 [Dd]ist/ 

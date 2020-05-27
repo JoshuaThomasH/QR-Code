@@ -17,59 +17,40 @@
 */
 
 /**
- * QRCodeEncoder
- * ------------
+ * QRCodeGenIA
+ * -----------
  * 
+ * utilizes:
+ * https://github.com/neocotic/qrious
+ * qrious.min.js
+ * 
+ * qr image output stored in Data/QRCodeGenerator
  */
  
-// using Chrome DevTools
-// https://support.intuiface.com/hc/en-us/articles/360028205792-Using-Chrome-DevTools-to-Debug-Custom-JavaScript-based-Interface-Assets
-
-// this describes the specifics of creating an 'Intuiface Descriptor File' (.ifd)
-// https://support.intuiface.com/hc/en-us/articles/360007179812-Design-an-Interface-Asset-Descriptor-for-a-REST-based-Web-Service
-
-
-
 
 /**
-* Inheritance on EventEmitter base class
-* @type {EventEmitter}
-*/
+ * 
+ * Inheritance on EventEmitter base class
+ * @type {EventEmitter}
+ * 
+ */
+
 QRCodeEncoder.prototype = new EventEmitter();
 QRCodeEncoder.prototype.constructor = QRCodeEncoder;
 
 /**
  * @constructor
  * 
- *
- * 
  */
+
 function QRCodeEncoder() {
-    //this.encodeText = "";
-    //this.qrCodeFilePath = "";
+
     this.TextToEncode = "";
     this.GeneratedQRCodePath = "";
     
 
-    //this.getInitFile();
-    //if needed
-    //this.init();
-    //this.ConnectToServer
-    //this.DisconnectFromServer
-    //this.fileService = intuiface.get('fileService', this);
 }
 
-/*
-QRCodeEncoder.prototype.setQrCodeFilePath = function(value){
-
-    if (this.qrCodeFilePath != value) {
-        this.qrCodeFilePath = value;
-        
-        this.emit('qrCodeFilePathChanged', [this.qrCodeFilePath]);
-        console.log("==>>>>set qr fired with new val");
-    } 
-}
-*/
 
 QRCodeEncoder.prototype.setTextToEncode = function(value) {
     
@@ -82,18 +63,6 @@ QRCodeEncoder.prototype.setTextToEncode = function(value) {
 } 
 
 
-function str2ab(str) {
-    //https://developers.google.com/web/updates/2012/06/How-to-convert-ArrayBuffer-to-and-from-String
-    //var buf = new ArrayBuffer(str.length*2); // 2 bytes for each char
-    //var bufView = new Uint16Array(buf);
-    var buf = new ArrayBuffer(str.length);
-    var bufView = new Uint8Array(buf);
-    for (var i=0, strLen=str.length; i < strLen; i++)
-    {
-        bufView[i] = str.charCodeAt(i);
-    }
-    return buf;
-}
 
 //https://gist.github.com/exinferis/4216799
 dataURItoBlob = function(dataURI) {
@@ -111,59 +80,13 @@ dataURItoBlob = function(dataURI) {
     });
 };
 
-function updateTheImage(newImg)
-{
-
-    this.GeneratedQRCodePath = newImg;
-    console.log("should update: " + newImg);
-    this.emit('GeneratedQRCodePathChanged', [this.GeneratedQRCodePath]);
-    //this.setQrCodeFilePath(valFP);
-}
-
-QRCodeEncoder.prototype.getInitFile = function() {
-    /*
-    console.log("git init fired");
-    //to provide a filepath for the inital image
-    var self = this;
-
-    var promiseCreateFSInit = new Promise(function(resolve, reject) {
-    
-        setTimeout(function() {
-            this.fileService = intuiface.get('fileService', this);
-            //should resolve once fileservice has been created
-            resolve();
-    
-        }, 6000);
-
-    });
-
-    promiseCreateFSInit.then(
-        function(result) {
-            fileService.getFilePath("writeFile.png", {
-                "success": function(valFP) {
-                    console.log("value from fs:" + valFP);
-
-                    self.qrCodeFilePath = valFP;
-                    self.emit('qrCodeFilePathChanged', [this.qrCodeFilePath]);
-                },
-                "error": function(err) {
-                    //IA is not fully initialized yet, FileService must be used out of the IA constructor, at a later time...
-                    console.log("==> error from init filepath");
-                }
-            });
-
-        }
-    );
-    */
-
-}
 
 QRCodeEncoder.prototype.init = function() {
 
     var urlToQR = this.TextToEncode;
     var directoryPath = "Data/QRCodeGenerator/";
-    var randomNamePNG =  directoryPath + "qr_output_" + Date.now() + ".png";
-    console.log("what we're encoding: " + urlToQR + " " + randomNamePNG);
+    var fullFileName =  directoryPath + "qr_output_" + Date.now() + ".png";
+    console.log("what we're encoding: " + urlToQR + " " + fullFileName);
     console.log("==> init()");
     
     /*
@@ -175,19 +98,18 @@ QRCodeEncoder.prototype.init = function() {
     {   //console.log("Document available, we're running in PLH!");
         //------------------------------------------------------------------------------------------------------
         
-        //var imageArrayBuffer;
-
-        //toDataURL() supports: image/webp, image/jpeg, image/png
-        //mime,     String, MIME type used to render the image for the QR code, "image/png"
-        //level,    String, Error correction level of the QR code (L, M, Q, H), "L"
+        
         var qr = new QRious({    
             value: urlToQR,
             size: 600,
             padding: 50,
 
         });
-        //qr code has been created and stored in a blob
+
+        //qr code has been created
         //ready to write
+
+        //toDataURL() supports: image/webp, image/jpeg, image/png
         var newImage = qr.toDataURL('image/png');
         var newImageBlob = dataURItoBlob(newImage);
         
@@ -206,17 +128,13 @@ QRCodeEncoder.prototype.init = function() {
         //once the fileservice resolves
         promiseCreateFS.then(
             function(result) {
-                
-                //may need to add a unique variable to the filename
 
-                fileService.write(newImageBlob, randomNamePNG, true, {
+                fileService.write(newImageBlob, fullFileName, true, {
     
                     "success": function()
                     {
 
-                        //now we need the filepath
-                        //and then bind that to an image
-                        fileService.getFilePath(randomNamePNG, {
+                        fileService.getFilePath(fullFileName, {
                             "success": function(valFP) {
                                 console.log("value from fs:" + valFP);
 
@@ -225,20 +143,27 @@ QRCodeEncoder.prototype.init = function() {
                                 self.GeneratedQRCodePath = valFP;
                                 self.emit('GeneratedQRCodePathChanged', [this.GeneratedQRCodePath]);
 
-                                
-                                //date time - day
+                                //delete all generated images in the content directory
+                                //written over 1 day ago 
                                 fileService.getDirectoryContent(directoryPath, {
+                                    /**  
+                                     * returns: the list of entries of the directory [array]. Each entry will have the following properties:
+                                     *   name: name of the entry
+                                     *   isDirectory: boolean indicating if the entry is a directory or not
+                                     *   isFile: boolean indicating if the entry is a file or not
+                                     *   fullPath: the absolute path of the entry
+                                    */
                                     "success": function(list)
                                     {
-                                        console.log(list);
+                                        //console.log(list);
 
                                         var arrayLength = list.length;
                                         for (var i = 0; i < arrayLength; i++) 
                                         {
                                             
-                                            //split the file name string to get the miliseconds since 1/1/70
+                                            //split the file name string to get the miliseconds since unix epoch
                                             var qrFileName = list[i].name;
-                                            console.log(qrFileName);
+                                            //console.log(qrFileName);
                                             var fileDate = qrFileName.substring(
                                                 qrFileName.lastIndexOf("_") + 1, 
                                                 qrFileName.lastIndexOf(".")
@@ -247,157 +172,40 @@ QRCodeEncoder.prototype.init = function() {
                                             var aDayAgo = new Date();
                                             aDayAgo.setDate(aDayAgo.getDate() - 1);
                                             
-                                            //console.log("file date: " + aDayAgo.getTime());
+                                            //delete file if older than one day
                                             if (aDayAgo > fileDate)
                                             {
-                                                console.log("we should delete this: " + directoryPath + qrFileName);
+                                                //console.log("we will delete: " + directoryPath + qrFileName);
                                                 fileService.deleteFile(directoryPath + qrFileName, {
                                                     "success": function(list)
                                                     {
-                                                        console.log("file deleted?")
+                                                        //console.log("file deleted?")
                                                     }
                                                 });
-
                                             }
-
-
                                         }
-                                        /*
-                                        returns: the list of entries of the directory [array]. Each entry will have the following properties:
-                                            name: name of the entry
-                                            isDirectory: boolean indicating if the entry is a directory or not
-                                            isFile: boolean indicating if the entry is a file or not
-                                            fullPath: the absolute path of the entry
-                                        */
-                                        
-                                        
                                     }
-                                });
+                                });//end getDirectoryContent
                             },
                             "error": function(err) {
                                 console.log("==> error from [file] service");
                             }
-                        });
-
+                        });//end getFilePath
                     },
                     "error": function(err2) {
                         console.log("==> error from [write] method " + err2);
                     }
-
-                });
+                });//end write
             }
-        );
-
-        /*
-        setTimeout(function() {
-            console.log("==> new timeout");
-            
-            fileService.getFilePath('', {
-                "success": function(val) {
-                    console.log("value from fs:" + val);
-                },
-                "error": function(err) {
-                    console.log("==> error from [file] service");
-                }
-            });
-    
-            fileService.read('awesomeface.jpg', true, {
-                "success": function(val2) {
-                    //ArrayBuffer if using Player for Tables/Kiosks, array of bytes if using Player for Windows?
-                    //console.log("value from read: \n " + val);
-                    
-                    //https://javascript.info/arraybuffer-binary-arrays
-                    //Uint8Array, Uint16Array, Uint32Array
-                    //Uint8ClampedArray
-                    //Int8Array, Int16Array, Int32Array
-                    //Float32Array, Float64Array
-                    //DataView 
-    
-                    //var imageArrayView = new Uint8Array([val])
-    
-                    console.log("val typeof: " + typeof(val2));
-    
-                    var convertedStrToAB = str2ab(val2);
-                    //var imageArrayView = new Uint8Array(val);
-    
-                    //console.log("length of array uint8" + imageArrayView.byteLength);
-                    
-                    
-                    
-                    
-                    //the dataview failing - throwing an error saying that val is NOT an array buffer
-                    var valView = new DataView(convertedStrToAB)
-                    //console.log("length of dataview: " + valView.byteLength);
-                    
-                    
-                    //var blob = new Blob( [ imageArrayView ], { type: "image/jpeg" } );
-                    //var blobImg = new Blob([imageArrayBuffer]);
-    
-                    //--------------------------------------------------------------
-                    setTimeout(function() { }, 1500);
-                    //--------------------------------------------------------------
-    
-                    //write the file as text
-                    //then try an empty blob type without data
-                    fileService.write(newImageBlob, 'writeFile.png', true, {
-    
-                        "success": function()
-                        {
-                            //console.log("write worked?");
-    
-                            //now we need the filepath
-                            //and then bind that to an image
-                            fileService.getFilePath('writeFile.png', {
-                                "success": function(valFP) {
-                                    console.log("value from fs:" + valFP);
-    
-                                    var qr = new QRious();
-    
-    
-    
-                                    //this.qrCodeFilePath = valFP;
-                                    //this.setQrCodeFilePath(valFP);
-                                    newImage = valFP;
-                                    //updateTheImage(valFP);
-                                    self.qrCodeFilePath = valFP;
-                                    self.emit('qrCodeFilePathChanged', [this.qrCodeFilePath]);
-                                },
-                                "error": function(err) {
-                                    console.log("==> error from [file] service");
-                                }
-                            });
-    
-                        },
-                        "error": function(err2) {
-                            console.log("==> error from [write] method " + err2);
-                        }
-    
-                    });
-    
-    
-                },
-                "error": function(err) {
-                    console.log("==> error from [read] method");
-                }
-            });
-    
-        }, 1500);
-        */
-    
+        );//end promise
         //------------------------------------------------------------------------------------------------------
+
     }//end Document check if statement
     else
     {   //console.log("Document (DOM) NOT available.");
     }
     
-    
-    
-}
+}//end init()
 
-QRCodeEncoder.prototype.generateCode = function() {
-
-
-
-}
 
 
