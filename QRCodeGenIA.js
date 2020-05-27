@@ -47,9 +47,6 @@ function QRCodeEncoder() {
 
     this.TextToEncode = "";
     this.GeneratedQRCodePath = "";
-
-    //implement error message
-    //this.ErrorMessage = "";
     
     this.directoryPath = "ImagesQR/";
 
@@ -57,11 +54,22 @@ function QRCodeEncoder() {
     var self = this;
 
     setTimeout(function() {
-        //this.fileService = intuiface.get('fileService', this);
+        //create fileservice
         self._init();
     }, 500);
 }
 
+QRCodeEncoder.prototype._init = function() {
+
+    //initalize fileservice 
+    if (this.fileService == null) {
+        this.fileService = intuiface.get('fileService', this);
+    }
+
+    //write qr code
+    this.writeQRCode();
+
+}//end _init
 
 QRCodeEncoder.prototype.setTextToEncode = function(value) {
     
@@ -75,44 +83,21 @@ QRCodeEncoder.prototype.setTextToEncode = function(value) {
     } 
 } 
 
-
-QRCodeEncoder.prototype._init = function() {
-
-    //initalize fileservice 
-    if (this.fileService == null) {
-        this.fileService = intuiface.get('fileService', this);
-    }
-
-    
-    console.log("new init");
-    this.writeQRCode();
-
-}//end _init
-
-
-
-
-
-
 QRCodeEncoder.prototype.writeQRCode = function() {
 
     var self = this;
 
-    
     var fullFileName =  this.directoryPath + "qr_output_" + Date.now() + ".png";
     
-    //console.log("path???===>>>" + this.directoryPath);
-    //console.log("full???===>>>" + fullFileName);
     var qr = new QRious({    
         value: this.TextToEncode,
         size: 600,
         padding: 50,
-
     });
 
     var newImage = qr.toDataURL('image/png');
     var newImageBlob = dataURItoBlob(newImage);
-    console.log(newImageBlob);
+    
     //filePath: relative file path (i.e. relative to the experience folder) of the file to be written
     this.fileService.write(newImageBlob, fullFileName, true, {
     
@@ -120,22 +105,20 @@ QRCodeEncoder.prototype.writeQRCode = function() {
         {
             self.getNewFilePath(fullFileName);
             
-            //console.log("the file was written!!!");
-        },//end success
-        'error': function(error) {
-
-            //console.log("error message==>" + error)
-        }//end error
+        }//end success
     });//end write
 }
 
+/**
+ * getNewFilePath
+ */
 QRCodeEncoder.prototype.getNewFilePath = function(newFileName) {
     
     var self = this;
 
     this.fileService.getFilePath(newFileName, {
+
         "success": function(returnValFilePath) {
-            console.log("value from fs:" + returnValFilePath);
 
             self.GeneratedQRCodePath = returnValFilePath;
             self.emit('GeneratedQRCodePathChanged', [this.GeneratedQRCodePath]);
@@ -143,7 +126,6 @@ QRCodeEncoder.prototype.getNewFilePath = function(newFileName) {
             self.deleteDayOldFiles();
         },
         'error': function(error) {
-            //console.log("error message==>" + error)
         }//end error
     });
 
@@ -165,7 +147,7 @@ QRCodeEncoder.prototype.deleteDayOldFiles = function() {
                 
                 //split the file name string to get the miliseconds since unix epoch
                 var qrFileName = list[i].name;
-                //console.log(qrFileName);
+
                 var fileDate = qrFileName.substring(
                     qrFileName.lastIndexOf("_") + 1, 
                     qrFileName.lastIndexOf(".")
@@ -176,26 +158,20 @@ QRCodeEncoder.prototype.deleteDayOldFiles = function() {
                 
                 //delete file if older than one day
                 if (aDayAgo > fileDate)
-                {
-                    //console.log("we will delete: " + this.directoryPath + qrFileName);
+                {  
                     self.fileService.deleteFile(self.directoryPath + qrFileName, {
-                        "success": function(delItem)
-                        {
-                            console.log("file deleted? " + delItem)
+                        "success": function()
+                        {   //console.log("file deleted")
                         },
                         'error': function(error) {
-                            console.log("error message del==>" + error)
                         }//end error
                     });
                 }
             }
         },
-        'error': function(error) {
-            console.log("error message==>" + error)
+        'error': function() {
         }//end error
     });//end getDirectoryContent
-
-
 }
 
 //https://gist.github.com/exinferis/4216799
@@ -213,133 +189,3 @@ dataURItoBlob = function(dataURI) {
         type: "image/png"
     });
 };
-
-
-QRCodeEncoder.prototype.init = function() {
-
-    var urlToQR = this.TextToEncode;
-    var directoryPath = "Data/QRCodeGenerator/";
-    var fullFileName =  directoryPath + "qr_output_" + Date.now() + ".png";
-    console.log("what we're encoding: " + urlToQR + " " + fullFileName);
-    console.log("==> init()");
-    
-    /*
-     * This logic can be used to account for the DOM not being available in PLW
-     *
-     */
-
-    if (typeof Document !== 'undefined')
-    {   //console.log("Document available, we're running in PLH!");
-        //------------------------------------------------------------------------------------------------------
-        
-
-        var qr = new QRious({    
-            value: urlToQR,
-            size: 600,
-            padding: 50,
-
-        });
-
-        //qr code has been created
-        //ready to write
-
-        //toDataURL() supports: image/webp, image/jpeg, image/png
-        var newImage = qr.toDataURL('image/png');
-        var newImageBlob = dataURItoBlob(newImage);
-        
-        //used for the fileservice
-        //var self = this;
-
-        var promiseCreateFS = new Promise(function(resolve, reject) {
-        
-        setTimeout(function() {
-            this.fileService = intuiface.get('fileService', this);
-                //should resolve once fileservice has been created
-                resolve();
-            }, 500);
-        });
-
-        //once the fileservice resolves
-        promiseCreateFS.then(
-            function(result) {
-
-                fileService.write(newImageBlob, fullFileName, true, {
-    
-                    "success": function()
-                    {
-
-                        fileService.getFilePath(fullFileName, {
-                            "success": function(valFP) {
-                                console.log("value from fs:" + valFP);
-
-                                newImage = valFP;
-
-                                self.GeneratedQRCodePath = valFP;
-                                self.emit('GeneratedQRCodePathChanged', [this.GeneratedQRCodePath]);
-
-                                //delete all generated images in the content directory
-                                //written over 1 day ago 
-                                fileService.getDirectoryContent(directoryPath, {
-                                    /**  
-                                     * returns: the list of entries of the directory [array]. Each entry will have the following properties:
-                                     *   name: name of the entry
-                                     *   isDirectory: boolean indicating if the entry is a directory or not
-                                     *   isFile: boolean indicating if the entry is a file or not
-                                     *   fullPath: the absolute path of the entry
-                                    */
-                                    "success": function(list)
-                                    {
-                                        //console.log(list);
-
-                                        var arrayLength = list.length;
-                                        for (var i = 0; i < arrayLength; i++) 
-                                        {
-                                            
-                                            //split the file name string to get the miliseconds since unix epoch
-                                            var qrFileName = list[i].name;
-                                            //console.log(qrFileName);
-                                            var fileDate = qrFileName.substring(
-                                                qrFileName.lastIndexOf("_") + 1, 
-                                                qrFileName.lastIndexOf(".")
-                                            );
-
-                                            var aDayAgo = new Date();
-                                            aDayAgo.setDate(aDayAgo.getDate() - 1);
-                                            
-                                            //delete file if older than one day
-                                            if (aDayAgo > fileDate)
-                                            {
-                                                //console.log("we will delete: " + directoryPath + qrFileName);
-                                                fileService.deleteFile(directoryPath + qrFileName, {
-                                                    "success": function(list)
-                                                    {
-                                                        //console.log("file deleted?")
-                                                    }
-                                                });
-                                            }
-                                        }
-                                    }
-                                });//end getDirectoryContent
-                            },
-                            "error": function(err) {
-                                console.log("==> error from [file] service");
-                            }
-                        });//end getFilePath
-                    },
-                    "error": function(err2) {
-                        console.log("==> error from [write] method " + err2);
-                    }
-                });//end write
-            }
-        );//end promise
-        //------------------------------------------------------------------------------------------------------
-
-    }//end Document check if statement
-    else
-    {   //console.log("Document (DOM) NOT available.");
-    }
-    
-}//end init()
-
-
-
