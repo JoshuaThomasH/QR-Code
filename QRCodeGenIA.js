@@ -161,7 +161,8 @@ QRCodeEncoder.prototype.getInitFile = function() {
 QRCodeEncoder.prototype.init = function() {
 
     var urlToQR = this.TextToEncode;
-    var randomNamePNG = "qr_output_" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5) + ".png";
+    var directoryPath = "Data/QRCodeGenerator/";
+    var randomNamePNG =  directoryPath + "qr_output_" + Date.now() + ".png";
     console.log("what we're encoding: " + urlToQR + " " + randomNamePNG);
     console.log("==> init()");
     
@@ -223,6 +224,55 @@ QRCodeEncoder.prototype.init = function() {
 
                                 self.GeneratedQRCodePath = valFP;
                                 self.emit('GeneratedQRCodePathChanged', [this.GeneratedQRCodePath]);
+
+                                
+                                //date time - day
+                                fileService.getDirectoryContent(directoryPath, {
+                                    "success": function(list)
+                                    {
+                                        console.log(list);
+
+                                        var arrayLength = list.length;
+                                        for (var i = 0; i < arrayLength; i++) 
+                                        {
+                                            
+                                            //split the file name string to get the miliseconds since 1/1/70
+                                            var qrFileName = list[i].name;
+                                            console.log(qrFileName);
+                                            var fileDate = qrFileName.substring(
+                                                qrFileName.lastIndexOf("_") + 1, 
+                                                qrFileName.lastIndexOf(".")
+                                            );
+
+                                            var aDayAgo = new Date();
+                                            aDayAgo.setDate(aDayAgo.getDate() - 1);
+                                            
+                                            //console.log("file date: " + aDayAgo.getTime());
+                                            if (aDayAgo > fileDate)
+                                            {
+                                                console.log("we should delete this: " + directoryPath + qrFileName);
+                                                fileService.deleteFile(directoryPath + qrFileName, {
+                                                    "success": function(list)
+                                                    {
+                                                        console.log("file deleted?")
+                                                    }
+                                                });
+
+                                            }
+
+
+                                        }
+                                        /*
+                                        returns: the list of entries of the directory [array]. Each entry will have the following properties:
+                                            name: name of the entry
+                                            isDirectory: boolean indicating if the entry is a directory or not
+                                            isFile: boolean indicating if the entry is a file or not
+                                            fullPath: the absolute path of the entry
+                                        */
+                                        
+                                        
+                                    }
+                                });
                             },
                             "error": function(err) {
                                 console.log("==> error from [file] service");
