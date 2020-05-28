@@ -1,4 +1,4 @@
-## QRCodeGenIA
+## QR Generator IA 
 
 
 #### Note
@@ -9,5 +9,4 @@ The .net version stores the generated files with `Environment.SpecialFolder.Loca
 
 ```C:\Users\Intuiface\AppData\Local\IntuiLab\QRCodeGenerator```
 
-The JS version uses the existing local (to the interface asset) `\Data` directory. I've created a new folder named `\QRCodeGenerator` within the `\Data` directory to mimic the .net version.
-
+The JS version uses the existing local (to the interface asset) `\ImagesQR` directory.
