@@ -105,7 +105,10 @@ QRCodeEncoder.prototype.writeQRCode = function() {
         {
             self.getNewFilePath(fullFileName);
             
-        }//end success
+        },//end success
+        'error': function(error) {
+            //console.log("write method error callback: " + error)
+        }//end error
     });//end write
 }
 
@@ -147,6 +150,9 @@ QRCodeEncoder.prototype.deleteDayOldFiles = function() {
                 
                 //split the file name string to get the miliseconds since unix epoch
                 var qrFileName = list[i].name;
+                if(qrFileName == ".gitignore")
+                {    continue;
+                }
 
                 var fileDate = qrFileName.substring(
                     qrFileName.lastIndexOf("_") + 1, 
