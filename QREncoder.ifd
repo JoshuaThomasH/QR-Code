@@ -7,7 +7,7 @@
     "title": "QR Code",
     "protocol": "native",
     "basePath": "QRCodeEncoder",
-	"dependencies":["qrious.min.js",
+	"dependencies":["qrcode.min.js",
                     "EventEmitter.js",
 					"QRCodeGenIA.js",
 					"QRCodeEncoder.dll",

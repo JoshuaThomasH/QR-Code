@@ -89,6 +89,8 @@ QRCodeEncoder.prototype.writeQRCode = function() {
 
     var fullFileName =  this.directoryPath + "qr_output_" + Date.now() + ".png";
     
+    //removed QRious - now using node-qrcode
+    /*
     var qr = new QRious({    
         value: this.TextToEncode,
         size: 600,
@@ -97,7 +99,38 @@ QRCodeEncoder.prototype.writeQRCode = function() {
 
     var newImage = qr.toDataURL('image/png');
     var newImageBlob = dataURItoBlob(newImage);
-    
+    */
+
+    /**
+     * version,                 number, QR Code version. If not specified the more suitable value will be calculated.
+     * errorCorrectionLevel,    string, Possible values are low, medium, quartile, high or L, M, Q, H.
+     * margin,                  number, Define how much wide the quiet zone (?) should be.
+     * scale,                   number, Scale factor. A value of 1 means 1px per modules (black dots).
+     */
+ 
+    var qr_opts = {
+        errorCorrectionLevel: 'H',
+        type: 'image/png',
+        quality: 1,
+        margin: 0,
+        width: 600,
+        color: {
+            dark:"#000",
+            light:"#FFF"
+        }
+    }
+
+    var newImage;
+    var newImageBlob;
+
+    var qr = QRCode.toDataURL(this.TextToEncode, qr_opts, function (err, url) {
+        if (err) throw err
+      
+        newImage = url;
+        newImageBlob = dataURItoBlob(newImage);
+    });
+    //console.log(newImageBlob);
+
     //filePath: relative file path (i.e. relative to the experience folder) of the file to be written
     this.fileService.write(newImageBlob, fullFileName, true, {
     
