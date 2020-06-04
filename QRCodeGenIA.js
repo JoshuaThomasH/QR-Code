@@ -21,8 +21,8 @@
  * -----------
  * 
  * utilizes:
- * https://github.com/neocotic/qrious
- * qrious.min.js
+ * https://github.com/soldair/node-qrcode#qr-code-options
+ * qrcode.min.js
  * 
  * qr image output stored in ImagesQR/ directory
  */
@@ -88,18 +88,6 @@ QRCodeEncoder.prototype.writeQRCode = function() {
     var self = this;
 
     var fullFileName =  this.directoryPath + "qr_output_" + Date.now() + ".png";
-    
-    //removed QRious - now using node-qrcode
-    /*
-    var qr = new QRious({    
-        value: this.TextToEncode,
-        size: 600,
-        padding: 50,
-    });
-
-    var newImage = qr.toDataURL('image/png');
-    var newImageBlob = dataURItoBlob(newImage);
-    */
 
     /**
      * version,                 number, QR Code version. If not specified the more suitable value will be calculated.
@@ -129,7 +117,7 @@ QRCodeEncoder.prototype.writeQRCode = function() {
         newImage = url;
         newImageBlob = dataURItoBlob(newImage);
     });
-    //console.log(newImageBlob);
+    
 
     //filePath: relative file path (i.e. relative to the experience folder) of the file to be written
     this.fileService.write(newImageBlob, fullFileName, true, {
