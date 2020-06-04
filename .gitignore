@@ -3,7 +3,9 @@
 *.mp4
 
 
-
+# let's ignore the older ifd files used for comparison
+QRCodeGenIA_Older.ifd
+QREncoderDotNet.ifd
 
 qr_scripts.bat
 
